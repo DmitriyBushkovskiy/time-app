@@ -6,7 +6,7 @@ metadata:
   labels:
     type: local
 spec:
-  storageClassName: manual
+  storageClassName: local-path
   capacity:
     storage: 20Mi
   accessModes:
@@ -20,7 +20,7 @@ metadata:
   name: mysql-pv-claim
   namespace: bushkovskiy
 spec:
-  storageClassName: manual
+  storageClassName: local-path
   accessModes:
     - ReadWriteOnce
   resources:

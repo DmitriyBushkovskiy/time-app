@@ -11,7 +11,7 @@ spec:
   clusterIP: None
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: mysql
   namespace: bushkovskiy
@@ -19,16 +19,16 @@ spec:
   selector:
     matchLabels:
       app: mysql
-  strategy:
-    type: Recreate
+  serviceName: mysql
+  replicas: 1
   template:
     metadata:
       labels:
         app: mysql
     spec:
       containers:
-        - image: mysql:5.6
-          name: mysql
+        - name: mysql
+          image: mysql:5.6
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: password
@@ -38,7 +38,13 @@ spec:
           volumeMounts:
             - name: mysql-persistent-storage
               mountPath: /var/lib/mysql
-      volumes:
-        - name: mysql-persistent-storage
-          persistentVolumeClaim:
-            claimName: mysql-pv-claim
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-persistent-storage
+      spec:
+        storageClassName: local-path
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 20Mi
