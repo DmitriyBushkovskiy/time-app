@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: time-app-frontend
-          image: garikvelikiy/time-app-frontend-dev:1.1.18
+          image: garikvelikiy/time-app-frontend-dev:1.1.17
           ports:
             - containerPort: 3000
 ---
